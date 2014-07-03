@@ -1,0 +1,114 @@
+-- NOTES
+-- 1) set up a database for linkmonger
+--		CREATE DATABASE  `linkmonger` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+-- 2) make sure you have a user that can do all the normal data queries on the database
+-- 		GRANT SELECT , INSERT , UPDATE , DELETE, CREATE ON  `linkmonger` . * TO  'www'@'localhost';
+--			NOTE: be careful about the password thing, you might have to
+--			use the "old" password scheme
+-- 3) use this text file to create tables
+--		mysql -u root < mysql.txt
+
+-- phpMyAdmin SQL Dump
+-- version 2.6.0-pl3
+-- http://www.phpmyadmin.net
+-- 
+-- Host: localhost
+-- Generation Time: Aug 09, 2005 at 08:52 AM
+-- Server version: 4.1.7
+-- PHP Version: 4.3.11
+-- 
+-- Database: `linkmonger`
+-- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `clump_links`
+-- 
+
+CREATE TABLE IF NOT EXISTS `clump_links` (
+  `clump_id` mediumint(8) unsigned NOT NULL default '0',
+  `link_id` mediumint(8) unsigned NOT NULL default '0',
+  `reason` text NOT NULL,
+  `sortorder` mediumint(8) unsigned NOT NULL default '0',
+  KEY `clump_id` (`clump_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `clumps`
+-- 
+
+CREATE TABLE IF NOT EXISTS `clumps` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `title` text NOT NULL,
+  `description` text NOT NULL,
+  `creator` varchar(64) NOT NULL default '',
+  `time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `link_count` mediumint(8) unsigned NOT NULL default '0',
+  `open` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `creator` (`creator`),
+  FULLTEXT KEY `title` (`title`,`description`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `comments`
+-- 
+
+CREATE TABLE IF NOT EXISTS `comments` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `link_id` mediumint(8) unsigned NOT NULL default '0',
+  `comment` text NOT NULL,
+  `commenter` varchar(64) NOT NULL default '',
+  `time` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `links`
+-- 
+
+CREATE TABLE IF NOT EXISTS `links` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `title` text NOT NULL,
+  `link` text NOT NULL,
+  `description` text,
+  `keywords` text,
+  `submitter` varchar(64) NOT NULL default '',
+  `submit_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `access_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `access_count` mediumint(8) unsigned NOT NULL default '0',
+  `comment_count` mediumint(8) unsigned NOT NULL default '0',
+  `archived` tinyint(1) NOT NULL default '1',
+  `dead` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `info` (`title`,`link`,`description`,`keywords`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `users`
+-- 
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `realname` varchar(128) default NULL,
+  `username` varchar(64) NOT NULL default '',
+  `password` varchar(32) NOT NULL default '',
+  `hint` varchar(255) default NULL,
+  `description` text,
+  `email` text,
+  `icon` text,
+  `usergroup` varchar(64) default NULL,
+  `valid` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+

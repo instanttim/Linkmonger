@@ -1,0 +1,35 @@
+Installing Linkmonger
+---------------------
+
+REQUIREMENTS
+
+	Apache 1.3.x or 2.x
+	MySQL 4.1.x (needed for charset support)
+	PHP 4.3 (mod_php with mysql support, and curl libraries)
+	Smarty 2.6.3
+	ezsql 2.0
+	FeedCreator 1.72
+	Simple Style 1.5.6 (included)
+	
+	Note: may work with older versions than listed here, but I haven't tested it.
+
+INSTALLING
+	
+1) copy the distribution to a directory which Apache is serving out.
+2) create a "templates_c" directory.
+3) edit configs/config.php and configs/template.conf to meet your needs.
+4) set up the database (discussed below)
+5) hopefully it works!
+
+DATABASE SETUP
+
+1) create a "linkmonger" database.
+2) set up a user and password for Apache to use to access the database (same as you entered in the config file)
+3) give said user the database permissions necessary (select, insert, update, delete, create).
+4) visit scripts/setup.php to create all the tables you need
+  -- or --
+4) use the directions in mysql.txt to manually create all the tables you need. 
+
+Note: if you manually create the tables without running setup.php you won't have any linkmonger accounts set up automatically. You can set one up in the users table, it should be self explainitory once you look at the table structure.
+
+Copyright 2001-2006 Timothy B Martin
